@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using ArtClub.DataAccess.EF;
+using ArtClub.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 

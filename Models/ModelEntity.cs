@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ArtClub.DataAccess.Model
+namespace ArtClub.Models
 {
     public class ModelEntity
     {
