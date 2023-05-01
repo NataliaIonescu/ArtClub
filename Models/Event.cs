@@ -1,5 +1,5 @@
 ﻿
-namespace ArtClub.DataAccess.Model
+namespace ArtClub.Models
 {
     public class Event : ModelEntity
     {

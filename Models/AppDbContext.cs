@@ -1,14 +1,13 @@
-﻿using ArtClub.DataAccess.EF;
-using System.Collections.Generic;
-using ArtClub.DataAccess.Model;
+﻿using System.Collections.Generic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using ArtClub.Models;
 
-namespace ArtClub.DataAccess.EF
+namespace ArtClub.Models
 {
     public class AppDbContext : DbContext
     {
