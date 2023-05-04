@@ -7,7 +7,7 @@
         public string Creator { get; set; } = string.Empty;
 
         public ICollection<Resource>? Resources { get; set; }
-       // public ICollection<User>? Users { get; set; }
-       public User? User { get; set; } // un event poate fi creat de un user
+        public ICollection<Invitation>? Invitations { get; set; }
+        public User? User { get; set; } // un event poate fi creat de un user
     }
 }

@@ -20,10 +20,10 @@ namespace ArtClub.Areas.Identity.Pages.Account
     [AllowAnonymous]
     public class ResendEmailConfirmationModel : PageModel
     {
-        private readonly UserManager<User> _userManager;
+        private readonly UserManager<IdentityUser> _userManager;
      //   private readonly IEmailSender _emailSender;
 
-        public ResendEmailConfirmationModel(UserManager<User> userManager)
+        public ResendEmailConfirmationModel(UserManager<IdentityUser> userManager)
         {
             _userManager = userManager;
           //  _emailSender = emailSender;

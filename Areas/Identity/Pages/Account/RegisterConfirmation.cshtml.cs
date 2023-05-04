@@ -18,10 +18,10 @@ namespace ArtClub.Areas.Identity.Pages.Account
     [AllowAnonymous]
     public class RegisterConfirmationModel : PageModel
     {
-        private readonly UserManager<User> _userManager;
+        private readonly UserManager<IdentityUser> _userManager;
       //  private readonly IEmailSender _sender;
 
-        public RegisterConfirmationModel(UserManager<User> userManager)
+        public RegisterConfirmationModel(UserManager<IdentityUser> userManager)
         {
             _userManager = userManager;
           //  _sender = sender;

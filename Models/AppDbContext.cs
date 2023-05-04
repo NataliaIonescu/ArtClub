@@ -17,6 +17,7 @@ namespace ArtClub.Models
         {
         }
         public DbSet<User> Users { get; set; }
+        public DbSet<Invitation> Invitations { get; set; }
         public DbSet<Event> Events { get; set; }
         public DbSet<Report> Reports { get; set; }
         public DbSet<Resource> Resources { get; set; }
