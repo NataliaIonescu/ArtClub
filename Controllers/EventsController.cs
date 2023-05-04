@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ArtClub.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ArtClub.Controllers
 {
@@ -21,9 +22,8 @@ namespace ArtClub.Controllers
         // GET: Events
         public async Task<IActionResult> Index()
         {
-              return _context.Events != null ? 
-                          View(await _context.Events.ToListAsync()) :
-                          Problem("Entity set 'AppDbContext.Events'  is null.");
+            var appDbContext = _context.Events.Include(p => p.Resource);
+            return View(await appDbContext.ToListAsync());
         }
 
         // GET: Events/Details/5
@@ -35,6 +35,7 @@ namespace ArtClub.Controllers
             }
 
             var @event = await _context.Events
+                .Include(p => p.Resource)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (@event == null)
             {
@@ -43,10 +44,11 @@ namespace ArtClub.Controllers
 
             return View(@event);
         }
-
+        [Authorize(Roles ="Member")]
         // GET: Events/Create
         public IActionResult Create()
         {
+            ViewData["ResourceId"] = new SelectList(_context.Resources, "Id", "Id");
             return View();
         }
 
@@ -55,7 +57,7 @@ namespace ArtClub.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("StartDate,EndDate,CreatorId,Id")] Event @event)
+        public async Task<IActionResult> Create([Bind("StartDate,EndDate,Description,ResourceId,Id")] Event @event)
         {
             if (ModelState.IsValid)
             {
@@ -63,6 +65,7 @@ namespace ArtClub.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["ResourceId"] = new SelectList(_context.Resources, "Id", "Id", @event.ResourceId);
             return View(@event);
         }
 
@@ -79,6 +82,7 @@ namespace ArtClub.Controllers
             {
                 return NotFound();
             }
+            ViewData["ResourceId"] = new SelectList(_context.Resources, "Id", "Id", @event.ResourceId);
             return View(@event);
         }
 
@@ -87,7 +91,7 @@ namespace ArtClub.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("StartDate,EndDate,CreatorId,Id")] Event @event)
+        public async Task<IActionResult> Edit(int id, [Bind("StartDate,EndDate,Description,ResourceId,Id")] Event @event)
         {
             if (id != @event.Id)
             {
@@ -114,6 +118,7 @@ namespace ArtClub.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["ResourceId"] = new SelectList(_context.Resources, "Id", "Id", @event.ResourceId);
             return View(@event);
         }
 
@@ -126,6 +131,7 @@ namespace ArtClub.Controllers
             }
 
             var @event = await _context.Events
+                .Include(p => p.Resource)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (@event == null)
             {

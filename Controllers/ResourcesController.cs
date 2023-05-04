@@ -44,7 +44,7 @@ namespace ArtClub.Controllers
 
             return View(resource);
         }
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles ="Admin")]
         // GET: Resources/Create
         public IActionResult Create()
         {
@@ -56,7 +56,7 @@ namespace ArtClub.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,Description,Availability,Price,Id")] Resource resource)
+        public async Task<IActionResult> Create([Bind("Name,Description,Price,Id")] Resource resource)
         {
             if (ModelState.IsValid)
             {
@@ -88,7 +88,7 @@ namespace ArtClub.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Name,Description,Availability,Price,Id")] Resource resource)
+        public async Task<IActionResult> Edit(int id, [Bind("Name,Description,Price,Id")] Resource resource)
         {
             if (id != resource.Id)
             {

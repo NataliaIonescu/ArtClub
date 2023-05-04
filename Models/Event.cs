@@ -1,5 +1,7 @@
 ﻿
 
+using System.Reflection.Metadata;
+
 namespace ArtClub.Models
 {
     public class Event : ModelEntity
@@ -7,9 +9,11 @@ namespace ArtClub.Models
         public DateTime StartDate { get; set; } = DateTime.Now;
         public DateTime EndDate { get; set; }
 
-  
+        public string Description { get; set; } = string.Empty;
 
-        public ICollection<Resource>? Resources { get; set; }
-        public ICollection<Invitation>? Invitations { get; set; }
+        public int ResourceId { get; set; }
+        public Resource? Resource { get; set; }
+       
+      //  public ICollection<Invitation>? Invitations { get; set; }
     }
 }
