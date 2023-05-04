@@ -1,7 +1,7 @@
 ﻿
 using System.ComponentModel.DataAnnotations;
 
-namespace ArtClub.DataAccess.Model
+namespace ArtClub.Models
 {
     public class Resource : ModelEntity
     {

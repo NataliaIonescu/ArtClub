@@ -1,4 +1,4 @@
-﻿namespace ArtClub.DataAccess.Model
+﻿namespace ArtClub.Models
 {
     public class Payment : ModelEntity
     {

@@ -1,5 +1,5 @@
 ﻿
-namespace ArtClub.DataAccess.Model
+namespace ArtClub.Models
 {
     public class Event : ModelEntity
     {
@@ -8,7 +8,7 @@ namespace ArtClub.DataAccess.Model
         public string Creator { get; set; } = string.Empty;
 
         public ICollection<Resource>? Resources { get; set; }
-        public ICollection<User>? Users { get; set; }
-
+        //public ICollection<User>? Users { get; set; }
+        public User? User { get; set; } // un event poate fi creat de un user
     }
 }
