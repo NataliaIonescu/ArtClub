@@ -1,8 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 //using ArtClub.DataAccess.EF;
-using ArtClub.AppDbContext.Models;
 using ArtClub.Models;
-using ArtClub.AppDbContext;
 
 var builder = WebApplication.CreateBuilder(args);
 
