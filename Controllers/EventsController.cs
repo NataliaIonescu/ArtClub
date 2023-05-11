@@ -14,6 +14,8 @@ namespace ArtClub.Controllers
     {
         private readonly AppDbContext _context;
 
+        public ILogger<EventsController> Logger { get; set; }
+
         public EventsController(AppDbContext context)
         {
             _context = context;
