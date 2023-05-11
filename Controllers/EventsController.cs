@@ -70,7 +70,7 @@ namespace ArtClub.Controllers
             ViewData["ResourceId"] = new SelectList(_context.Resources, "Id", "Id", @event.Id);
             return View(@event);
         }
-
+        [Authorize(Roles = "Member, Admin")]
         // GET: Events/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -123,7 +123,7 @@ namespace ArtClub.Controllers
             ViewData["ResourceId"] = new SelectList(_context.Resources, "Id", "Id", @event.ResourceId);
             return View(@event);
         }
-
+        [Authorize(Roles = "Member, Admin")]
         // GET: Events/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {

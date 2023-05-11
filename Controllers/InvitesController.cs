@@ -7,9 +7,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ArtClub.Models;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
 
 namespace ArtClub.Controllers
 {
+    [Authorize(Roles = "Member, Admin")]
     public class InvitesController : Controller
     {
         private readonly AppDbContext _context;
