@@ -6,94 +6,94 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ArtClub.Models;
-using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace ArtClub.Controllers
 {
-    public class EventsController : Controller
+    public class InvitesController : Controller
     {
         private readonly AppDbContext _context;
 
-        public EventsController(AppDbContext context)
+        public InvitesController(AppDbContext context)
         {
             _context = context;
         }
 
-        // GET: Events
+        // GET: Invites
         public async Task<IActionResult> Index()
         {
-            var appDbContext = _context.Events.Include(v => v.Resource);
+            var appDbContext = _context.Invites.Include(i => i.Event);
             return View(await appDbContext.ToListAsync());
         }
 
-        // GET: Events/Details/5
+        // GET: Invites/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Events == null)
+            if (id == null || _context.Invites == null)
             {
                 return NotFound();
             }
 
-            var @event = await _context.Events
-                .Include(v => v.Resource)
+            var invite = await _context.Invites
+                .Include(i => i.Event)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (@event == null)
+            if (invite == null)
             {
                 return NotFound();
             }
 
-            return View(@event);
+            return View(invite);
         }
-        [Authorize (Roles ="Member")]
-        // GET: Events/Create
+
+        // GET: Invites/Create
         public IActionResult Create()
         {
-            ViewData["ResourceId"] = new SelectList(_context.Resources, "Id", "Id");
+            ViewData["EventId"] = new SelectList(_context.Events, "Id", "Id");
             return View();
         }
 
-        // POST: Events/Create
+        // POST: Invites/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("StartDate,EndDate,Description,ResourceId,Id")] Event @event)
+        public async Task<IActionResult> Create([Bind("EmailForReceiver,EventId,Id")] Invite invite)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(@event);
+                _context.Add(invite);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ResourceId"] = new SelectList(_context.Resources, "Id", "Id", @event.Id);
-            return View(@event);
+            ViewData["EventId"] = new SelectList(_context.Events, "Id", "Id", invite.EventId);
+            return View(invite);
         }
 
-        // GET: Events/Edit/5
+        // GET: Invites/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Events == null)
+            if (id == null || _context.Invites == null)
             {
                 return NotFound();
             }
 
-            var @event = await _context.Events.FindAsync(id);
-            if (@event == null)
+            var invite = await _context.Invites.FindAsync(id);
+            if (invite == null)
             {
                 return NotFound();
             }
-            ViewData["ResourceId"] = new SelectList(_context.Resources, "Id", "Id", @event.Id);
-            return View(@event);
+            ViewData["EventId"] = new SelectList(_context.Events, "Id", "Id", invite.EventId);
+            return View(invite);
         }
 
-        // POST: Events/Edit/5
+        // POST: Invites/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("StartDate,EndDate,Description,ResourceId,Id")] Event @event)
+        public async Task<IActionResult> Edit(int id, [Bind("EmailForReceiver,EventId,Id")] Invite invite)
         {
-            if (id != @event.Id)
+            if (id != invite.Id)
             {
                 return NotFound();
             }
@@ -102,12 +102,12 @@ namespace ArtClub.Controllers
             {
                 try
                 {
-                    _context.Update(@event);
+                    _context.Update(invite);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!EventExists(@event.Id))
+                    if (!InviteExists(invite.Id))
                     {
                         return NotFound();
                     }
@@ -118,51 +118,70 @@ namespace ArtClub.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ResourceId"] = new SelectList(_context.Resources, "Id", "Id", @event.ResourceId);
-            return View(@event);
+            ViewData["EventId"] = new SelectList(_context.Events, "Id", "Id", invite.EventId);
+            return View(invite);
         }
 
-        // GET: Events/Delete/5
+        // GET: Invites/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Events == null)
+            if (id == null || _context.Invites == null)
             {
                 return NotFound();
             }
 
-            var @event = await _context.Events
-                .Include(v => v.Resource)
+            var invite = await _context.Invites
+                .Include(i => i.Event)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (@event == null)
+            if (invite == null)
             {
                 return NotFound();
             }
 
-            return View(@event);
+            return View(invite);
         }
 
-        // POST: Events/Delete/5
+        // POST: Invites/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Events == null)
+            if (_context.Invites == null)
             {
-                return Problem("Entity set 'AppDbContext.Events'  is null.");
+                return Problem("Entity set 'AppDbContext.Invite'  is null.");
             }
-            var @event = await _context.Events.FindAsync(id);
-            if (@event != null)
+            var invite = await _context.Invites.FindAsync(id);
+            if (invite != null)
             {
-                _context.Events.Remove(@event);
+                _context.Invites.Remove(invite);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool EventExists(int id)
+        private bool InviteExists(int id)
         {
-          return (_context.Events?.Any(e => e.Id == id)).GetValueOrDefault();
+          return (_context.Invites?.Any(e => e.Id == id)).GetValueOrDefault();
         }
+
+        public IActionResult MyInvites()
+        {
+            // obțineți ID-ul utilizatorului conectat
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            // căutați invitațiile primite de utilizatorul conectat în baza de date
+            var invites = _context.Invites.Where(i => i.RecipientId == userId).ToList();
+
+            // returnați invitațiile primite într-o vedere
+            return View(invites);
+        }
+        public IActionResult MyInvites1()
+        {
+            var invites = _context.Invites.Where(i => i.EmailForReceiver == User.Identity.Name).ToList();
+            return View(invites);
+        }
+
+
     }
 }

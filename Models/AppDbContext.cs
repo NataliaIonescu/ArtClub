@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 
+
 namespace ArtClub.Models
 {
     public class AppDbContext : IdentityDbContext<IdentityUser>
@@ -21,6 +22,7 @@ namespace ArtClub.Models
         public DbSet<Report> Reports { get; set; }
         public DbSet<Resource> Resources { get; set; }
         public DbSet<Payment> Payments { get; set; }
+        public DbSet<Invite> Invites { get; set; } = default!;
 
 
     }

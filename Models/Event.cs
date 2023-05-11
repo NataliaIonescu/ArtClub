@@ -5,10 +5,11 @@ namespace ArtClub.Models
     {
         public DateTime StartDate { get; set; } = DateTime.Now;
         public DateTime EndDate { get; set; }
-        public string Creator { get; set; } = string.Empty;
 
-        public ICollection<Resource>? Resources { get; set; }
-        //public ICollection<User>? Users { get; set; }
-        public User? User { get; set; } // un event poate fi creat de un user
+        public string Description { get; set; } = string.Empty;
+
+        public int ResourceId { get; set; }
+        public Resource? Resource { get; set; }
+        
     }
 }

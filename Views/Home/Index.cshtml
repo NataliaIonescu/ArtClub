@@ -1,12 +1,43 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+
 <link rel="stylesheet" href="~/css/index.css" asp-append-version="true" />
-
 <!DOCTYPE html>
-
-
 <html lang="en">
-    <p> Welcome to our Art Club Application </p>
-   
+<head>
+    <title>Welcome to Art Club</title>
+    <style>
+        body {
+            background-image: url('css/art.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 100px 20px;
+            color: black;
+        }
+
+        h1 {
+            font-size: 4rem;
+            margin-bottom: 50px;
+            background-color: rgba(255, 255, 255, 0.5);
+        }
+
+        p {
+            font-size: 2rem;
+            background-color: rgba(255, 255, 255, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to Art Club</h1>
+        <p>Thank you for visiting our application! We are dedicated to providing a platform for artists to showcase their work and connect with other art enthusiasts.</p>
+    </div>
+</body>
 </html>

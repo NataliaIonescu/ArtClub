@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ArtClub.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230510084146_InitialCreate2")]
-    partial class InitialCreate2
+    [Migration("20230511094029_NumeTest")]
+    partial class NumeTest
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,24 +33,52 @@ namespace ArtClub.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Creator")
+                    b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("ResourceId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("UserId")
+                    b.HasKey("Id");
+
+                    b.HasIndex("ResourceId");
+
+                    b.ToTable("Events");
+                });
+
+            modelBuilder.Entity("ArtClub.Models.Invite", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("EmailForReceiver")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("EventId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("RecipientId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SenderEmail")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("EventId");
 
-                    b.ToTable("Events");
+                    b.ToTable("Invites");
                 });
 
             modelBuilder.Entity("ArtClub.Models.Payment", b =>
@@ -121,9 +149,6 @@ namespace ArtClub.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("EventId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -132,8 +157,6 @@ namespace ArtClub.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("EventId");
 
                     b.ToTable("Resources");
                 });
@@ -371,18 +394,24 @@ namespace ArtClub.Migrations
 
             modelBuilder.Entity("ArtClub.Models.Event", b =>
                 {
-                    b.HasOne("ArtClub.Models.User", "User")
+                    b.HasOne("ArtClub.Models.Resource", "Resource")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("ResourceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("User");
+                    b.Navigation("Resource");
                 });
 
-            modelBuilder.Entity("ArtClub.Models.Resource", b =>
+            modelBuilder.Entity("ArtClub.Models.Invite", b =>
                 {
-                    b.HasOne("ArtClub.Models.Event", null)
-                        .WithMany("Resources")
-                        .HasForeignKey("EventId");
+                    b.HasOne("ArtClub.Models.Event", "Event")
+                        .WithMany()
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Event");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -434,11 +463,6 @@ namespace ArtClub.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("ArtClub.Models.Event", b =>
-                {
-                    b.Navigation("Resources");
                 });
 #pragma warning restore 612, 618
         }
