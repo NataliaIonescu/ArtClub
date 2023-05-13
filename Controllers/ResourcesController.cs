@@ -1,8 +1,13 @@
-﻿
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ArtClub.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.Data;
 
 namespace ArtClub.Controllers
 {
@@ -40,7 +45,8 @@ namespace ArtClub.Controllers
 
             return View(resource);
         }
-        [Authorize(Roles ="Admin")]
+
+        [Authorize(Roles = "Admin")]
         // GET: Resources/Create
         public IActionResult Create()
         {
@@ -52,7 +58,7 @@ namespace ArtClub.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,Description,Price,Id")] Resource resource)
+        public async Task<IActionResult> Create([Bind("Name,Description,Availability,Price,Id")] Resource resource)
         {
             if (ModelState.IsValid)
             {
@@ -62,7 +68,7 @@ namespace ArtClub.Controllers
             }
             return View(resource);
         }
-
+        [Authorize(Roles = "Admin")]
         // GET: Resources/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -84,7 +90,7 @@ namespace ArtClub.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Name,Description,Price,Id")] Resource resource)
+        public async Task<IActionResult> Edit(int id, [Bind("Name,Description,Availability,Price,Id")] Resource resource)
         {
             if (id != resource.Id)
             {
@@ -113,7 +119,7 @@ namespace ArtClub.Controllers
             }
             return View(resource);
         }
-
+        [Authorize(Roles = "Admin")]
         // GET: Resources/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {

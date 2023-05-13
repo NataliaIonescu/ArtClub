@@ -1,5 +1,4 @@
-﻿
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ArtClub.Models;
@@ -19,7 +18,7 @@ namespace ArtClub.Controllers
         // GET: Events
         public async Task<IActionResult> Index()
         {
-            var appDbContext = _context.Events.Include(p => p.Resource);
+            var appDbContext = _context.Events.Include(v => v.Resource);
             return View(await appDbContext.ToListAsync());
         }
 
@@ -32,7 +31,7 @@ namespace ArtClub.Controllers
             }
 
             var @event = await _context.Events
-                .Include(p => p.Resource)
+                .Include(v => v.Resource)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (@event == null)
             {
@@ -41,31 +40,54 @@ namespace ArtClub.Controllers
 
             return View(@event);
         }
-        [Authorize(Roles ="Member")]
+        [Authorize (Roles ="Member")]
         // GET: Events/Create
         public IActionResult Create()
         {
-            ViewData["ResourceId"] = new SelectList(_context.Resources, "Id", "Id");
+            ViewData["ResourceId"] = new SelectList(_context.Resources, "Id", "Name");
             return View();
         }
 
         // POST: Events/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Create([Bind("StartDate,EndDate,Description,ResourceId,Id")] Event @event)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        _context.Add(@event);
+        //        await _context.SaveChangesAsync();
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    ViewData["ResourceId"] = new SelectList(_context.Resources, "Id", "Id", @event.Id);
+        //    return View(@event);
+        //}
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("StartDate,EndDate,Description,ResourceId,Id")] Event @event)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(@event);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                // check if an event with the same properties already exists
+                if (_context.Events.Any(e => e.StartDate == @event.StartDate && e.EndDate == @event.EndDate && e.ResourceId == @event.ResourceId))
+                {
+                    ModelState.AddModelError("", "An event with the same StartDate, EndDate and ResourceId already exists.");
+                }
+                else
+                {
+                    _context.Add(@event);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
             }
-            ViewData["ResourceId"] = new SelectList(_context.Resources, "Id", "Id", @event.ResourceId);
+            ViewData["ResourceId"] = new SelectList(_context.Resources, "Id", "Name", @event.Id);
             return View(@event);
         }
 
+
+        [Authorize(Roles = "Admin, Member")]
         // GET: Events/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -79,13 +101,45 @@ namespace ArtClub.Controllers
             {
                 return NotFound();
             }
-            ViewData["ResourceId"] = new SelectList(_context.Resources, "Id", "Id", @event.ResourceId);
+            ViewData["ResourceId"] = new SelectList(_context.Resources, "Id", "Name", @event.Id);
             return View(@event);
         }
 
         // POST: Events/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Edit(int id, [Bind("StartDate,EndDate,Description,ResourceId,Id")] Event @event)
+        //{
+        //    if (id != @event.Id)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    if (ModelState.IsValid)
+        //    {
+        //        try
+        //        {
+        //            _context.Update(@event);
+        //            await _context.SaveChangesAsync();
+        //        }
+        //        catch (DbUpdateConcurrencyException)
+        //        {
+        //            if (!EventExists(@event.Id))
+        //            {
+        //                return NotFound();
+        //            }
+        //            else
+        //            {
+        //                throw;
+        //            }
+        //        }
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    ViewData["ResourceId"] = new SelectList(_context.Resources, "Id", "Id", @event.ResourceId);
+        //    return View(@event);
+        //}
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("StartDate,EndDate,Description,ResourceId,Id")] Event @event)
@@ -97,28 +151,36 @@ namespace ArtClub.Controllers
 
             if (ModelState.IsValid)
             {
-                try
+                // check if an event with the same properties already exists
+                if (_context.Events.Any(e => e.StartDate == @event.StartDate && e.EndDate == @event.EndDate && e.ResourceId == @event.ResourceId && e.Id != @event.Id))
                 {
-                    _context.Update(@event);
-                    await _context.SaveChangesAsync();
+                    ModelState.AddModelError("", "An event with the same StartDate, EndDate and ResourceId already exists.");
                 }
-                catch (DbUpdateConcurrencyException)
+                else
                 {
-                    if (!EventExists(@event.Id))
+                    try
                     {
-                        return NotFound();
+                        _context.Update(@event);
+                        await _context.SaveChangesAsync();
                     }
-                    else
+                    catch (DbUpdateConcurrencyException)
                     {
-                        throw;
+                        if (!EventExists(@event.Id))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
                     }
+                    return RedirectToAction(nameof(Index));
                 }
-                return RedirectToAction(nameof(Index));
             }
-            ViewData["ResourceId"] = new SelectList(_context.Resources, "Id", "Id", @event.ResourceId);
+            ViewData["ResourceId"] = new SelectList(_context.Resources, "Id", "Name", @event.ResourceId);
             return View(@event);
         }
-
+        [Authorize(Roles = "Admin, Member")]
         // GET: Events/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -128,7 +190,7 @@ namespace ArtClub.Controllers
             }
 
             var @event = await _context.Events
-                .Include(p => p.Resource)
+                .Include(v => v.Resource)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (@event == null)
             {

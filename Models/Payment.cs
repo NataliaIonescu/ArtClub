@@ -1,4 +1,6 @@
-﻿namespace ArtClub.Models
+﻿
+
+namespace ArtClub.Models
 {
     public class Payment : ModelEntity
     {
@@ -8,7 +10,5 @@
         public DateTime GeneratedDateTime { get; set; }
         public decimal MoneyAmount { get; set; }
         public string CurrencyName { get; set; } = string.Empty;
-
-
     }
 }

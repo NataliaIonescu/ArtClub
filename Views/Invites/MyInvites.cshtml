@@ -1,0 +1,44 @@
+﻿@model List<Invite>
+
+<style>
+    body {
+        background-color: #94c0c2;
+    }
+</style>
+
+<h1>Invitations Received</h1>
+
+@if (Model.Count == 0)
+{
+    <p>You have no invitations.</p>
+}
+
+        <table class="table table-striped table-hover table-dark">
+        <thead>
+            <tr>
+                <th>Sender</th>
+                <th>Event</th>
+                <th>    </th>
+            </tr>
+        </thead>
+            <tbody>
+        
+                @foreach (var invite in Model)
+                {
+                <tr>
+                    <td>@invite.SenderEmail</td>
+                    <td>@invite.EventId</td>
+                   
+                    
+                    <td>
+                    
+                    <a class="btn btn-secondary" asp-action="Details" asp-route-id="@invite.Id">Details</a>
+                    </td>
+                    
+                </tr>
+                }
+           
+        </tbody>
+     </table> 
+
+

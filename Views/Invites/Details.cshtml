@@ -1,0 +1,35 @@
+﻿@model ArtClub.Models.Invite
+
+@{
+    ViewData["Title"] = "Details";
+}
+<style>
+    body {
+        background-color: #94c0c2;
+    }
+</style>
+<h1>Details</h1>
+
+<div>
+    <h4>Invite</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.EmailForReceiver)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.EmailForReceiver)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Event)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Event.Id)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
+

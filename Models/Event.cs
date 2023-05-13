@@ -1,7 +1,5 @@
 ﻿
 
-using System.Reflection.Metadata;
-
 namespace ArtClub.Models
 {
     public class Event : ModelEntity
@@ -13,7 +11,6 @@ namespace ArtClub.Models
 
         public int ResourceId { get; set; }
         public Resource? Resource { get; set; }
-       
-      //  public ICollection<Invitation>? Invitations { get; set; }
+
     }
 }
