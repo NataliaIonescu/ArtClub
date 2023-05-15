@@ -48,22 +48,7 @@ namespace ArtClub.Controllers
             return View();
         }
 
-        // POST: Events/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Create([Bind("StartDate,EndDate,Description,ResourceId,Id")] Event @event)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        _context.Add(@event);
-        //        await _context.SaveChangesAsync();
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    ViewData["ResourceId"] = new SelectList(_context.Resources, "Id", "Id", @event.Id);
-        //    return View(@event);
-        //}
+      
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("StartDate,EndDate,Description,ResourceId,Id")] Event @event)
@@ -105,41 +90,7 @@ namespace ArtClub.Controllers
             return View(@event);
         }
 
-        // POST: Events/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(int id, [Bind("StartDate,EndDate,Description,ResourceId,Id")] Event @event)
-        //{
-        //    if (id != @event.Id)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            _context.Update(@event);
-        //            await _context.SaveChangesAsync();
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-        //            if (!EventExists(@event.Id))
-        //            {
-        //                return NotFound();
-        //            }
-        //            else
-        //            {
-        //                throw;
-        //            }
-        //        }
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    ViewData["ResourceId"] = new SelectList(_context.Resources, "Id", "Id", @event.ResourceId);
-        //    return View(@event);
-        //}
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("StartDate,EndDate,Description,ResourceId,Id")] Event @event)

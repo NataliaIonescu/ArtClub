@@ -5,7 +5,9 @@ VisualStudioVersion = 17.5.33516.290
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArtClub", "ArtClub.csproj", "{4BB23FE6-AE01-4177-8482-D1EADA5D8ECE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArtClub_UnitTests", "..\ArtClub_UnitTests\ArtClub_UnitTests.csproj", "{73447ECB-A133-4B8A-B02B-D823F19C5096}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArtClub_UnitTests", "..\ArtClub_UnitTests\ArtClub_UnitTests.csproj", "{73447ECB-A133-4B8A-B02B-D823F19C5096}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArtClubTests", "Tests\ArtClubTests\ArtClubTests.csproj", "{5D472663-3A30-4BD1-A395-112D32AE0BE7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{73447ECB-A133-4B8A-B02B-D823F19C5096}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{73447ECB-A133-4B8A-B02B-D823F19C5096}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{73447ECB-A133-4B8A-B02B-D823F19C5096}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D472663-3A30-4BD1-A395-112D32AE0BE7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D472663-3A30-4BD1-A395-112D32AE0BE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D472663-3A30-4BD1-A395-112D32AE0BE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D472663-3A30-4BD1-A395-112D32AE0BE7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
