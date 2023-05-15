@@ -5,7 +5,12 @@ VisualStudioVersion = 17.5.33516.290
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArtClub", "ArtClub.csproj", "{4BB23FE6-AE01-4177-8482-D1EADA5D8ECE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestProjectMock", "TestProjectMock\TestProjectMock.csproj", "{4F8F5A74-4FCB-43AB-9983-6EA1FE154E29}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestProjectMock", "TestProjectMock\TestProjectMock.csproj", "{4F8F5A74-4FCB-43AB-9983-6EA1FE154E29}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6CDF41BE-3A0E-4BA0-9D8C-E9DE7AF5F29E}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
